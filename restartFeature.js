@@ -112,11 +112,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function runGame() {
         if (!gameStarted) {
-            gameStarted = true;
-            document.addEventListener('keydown', changeDirection);
+            document.removeEventListener('keydown', changeDirection); // Remove existing listener
+            document.addEventListener('keydown', changeDirection);    // Add it again
             gameLoop();
+            gameStarted = true;
         }
     }
+
 
     function drawScoreBoard() {
         const scoreBoard = document.getElementById('score-board');
@@ -160,12 +162,13 @@ document.addEventListener('DOMContentLoaded', function () {
         gameSpeed = 200;
         dx = cellSize;
         dy = 0;
-        gameStarted = true;
         snake = [{ x: 160, y: 200 }, { x: 140, y: 200 }, { x: 120, y: 200 }];
         food = { x: 300, y: 200 };
         drawFoodAndSnake();
         drawScoreBoard();
+        gameStarted = false; // Reset so runGame() will work again
     }
+
 
     initiateGame();
 });
