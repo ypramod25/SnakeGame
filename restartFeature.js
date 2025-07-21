@@ -12,14 +12,43 @@ document.addEventListener('DOMContentLoaded', function () {
     let intervalId;
     let gameSpeed = 200;
 
+    // function moveFood() {
+    //     let newX, newY;
+    //     do {
+    //         newX = Math.floor(Math.random() * 30) * cellSize;
+    //         newY = Math.floor(Math.random() * 30) * cellSize;
+    //     } while (snake.some(snakeCell => snakeCell.x === newX && snakeCell.y === newY));
+    //     food = { x: newX, y: newY };
+    // }
     function moveFood() {
-        let newX, newY;
-        do {
-            newX = Math.floor(Math.random() * 30) * cellSize;
-            newY = Math.floor(Math.random() * 30) * cellSize;
-        } while (snake.some(snakeCell => snakeCell.x === newX && snakeCell.y === newY));
-        food = { x: newX, y: newY };
+        const positions = [];
+
+        // Top and Bottom borders
+        for (let x = 0; x < arenaSize; x += cellSize) {
+            positions.push({ x: x, y: 0 }); // Top border
+            positions.push({ x: x, y: arenaSize - cellSize }); // Bottom border
+        }
+
+        // Left and Right borders (excluding corners already added)
+        for (let y = cellSize; y < arenaSize - cellSize; y += cellSize) {
+            positions.push({ x: 0, y: y }); // Left border
+            positions.push({ x: arenaSize - cellSize, y: y }); // Right border
+        }
+
+        // Filter out any position that overlaps with the snake
+        const availablePositions = positions.filter(pos =>
+            !snake.some(cell => cell.x === pos.x && cell.y === pos.y)
+        );
+
+        if (availablePositions.length > 0) {
+            const index = Math.floor(Math.random() * availablePositions.length);
+            food = availablePositions[index];
+        } else {
+            // Fallback: just place food at (0,0) if no position available
+            food = { x: 0, y: 0 };
+        }
     }
+
 
     function updateSnake() {
         const newHead = { x: snake[0].x + dx, y: snake[0].y + dy };
