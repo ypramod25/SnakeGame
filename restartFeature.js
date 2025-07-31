@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let score = 0;
     let gameStarted = false;
     let food = { x: 0, y: 0 };
-    let snake = [{ x: 160, y: 200 }, { x: 140, y: 200 }, { x: 120, y: 200 }];
+    let snake = [{ x: 480, y: 200 }, { x: 460, y: 200 }, { x: 440, y: 200 }];
     let dx = cellSize;
     let dy = 0;
     let intervalId;
@@ -22,24 +22,20 @@ document.addEventListener('DOMContentLoaded', function () {
     // }
     function moveFood() {
         const positions = [];
-
         // Top and Bottom borders
         for (let x = 0; x < arenaSize; x += cellSize) {
             positions.push({ x: x, y: 0 }); // Top border
             positions.push({ x: x, y: arenaSize - cellSize }); // Bottom border
         }
-
         // Left and Right borders (excluding corners already added)
         for (let y = cellSize; y < arenaSize - cellSize; y += cellSize) {
             positions.push({ x: 0, y: y }); // Left border
             positions.push({ x: arenaSize - cellSize, y: y }); // Right border
         }
-
         // Filter out any position that overlaps with the snake
         const availablePositions = positions.filter(pos =>
             !snake.some(cell => cell.x === pos.x && cell.y === pos.y)
         );
-
         if (availablePositions.length > 0) {
             const index = Math.floor(Math.random() * availablePositions.length);
             food = availablePositions[index];

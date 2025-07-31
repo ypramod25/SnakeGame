@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const foodElement = drawDiv(food.x, food.y, 'food');
         gameArena.appendChild(foodElement);
     }
-
+    
     function isGameOver() {
         // snake collision checks
         for(let i = 1; i < snake.length; i++) {
@@ -92,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return true;
             }
         }
-
         // wall collision checks
         const hitLeftWall = snake[0].x < 0; // snake[0] -> head
         const hitRightWall = snake[0].x > arenaSize - cellSize;
